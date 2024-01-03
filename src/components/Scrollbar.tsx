@@ -1,19 +1,17 @@
-import {
-  Section,
-  SectionContext,
-  SectionContextType,
-} from "@/utils/SectionData";
+import { SectionContext } from "@/utils/SectionContext";
+import { Section } from "@/utils/SectionData";
 import { motion } from "framer-motion";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 interface ScrollbarProps {
   sections: Section[];
 }
 
 const Scrollbar: React.FC<ScrollbarProps> = ({ sections }) => {
-  const { activeSection, activeSectionProgress } = useContext(
-    SectionContext
-  ) as SectionContextType;
+  const sectionContext = useContext(SectionContext);
+  if (sectionContext == null) return;
+
+  const { activeSection, activeSectionProgress } = sectionContext;
 
   return (
     <motion.div className="fixed right-10 h-screen flex flex-col gap-2 justify-center z-10">
@@ -25,7 +23,9 @@ const Scrollbar: React.FC<ScrollbarProps> = ({ sections }) => {
           style={{
             height: activeSection == positionId ? "32px" : "8px",
             backgroundColor:
-              activeSection == positionId ? "white" : "rgb(82,82,82)",
+              activeSection == positionId
+                ? "rgb(200,200,200)"
+                : "rgb(82,82,82)",
             borderRadius: 9999,
           }}
           className="w-2 overflow-hidden"

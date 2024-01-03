@@ -1,5 +1,3 @@
-import { createContext } from "react";
-
 export type Section = {
   positionId: number;
   title: string;
@@ -23,12 +21,3 @@ export const sections: Section[] = [
     title: "Trusted Contacts",
   },
 ];
-
-export type SectionContextType = {
-  activeSection: number;
-  setActiveSection: (_: number) => void;
-  activeSectionProgress: number;
-  setActiveSectionProgress: (_: number) => void;
-};
-
-export const SectionContext = createContext<SectionContextType | null>(null);

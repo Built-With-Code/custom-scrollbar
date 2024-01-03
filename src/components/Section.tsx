@@ -1,29 +1,34 @@
-import {
-  Section,
-  SectionContext,
-  SectionContextType,
-} from "@/utils/SectionData";
+import { SectionContext } from "@/utils/SectionContext";
+import { Section } from "@/utils/SectionData";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import React, { HTMLAttributes, useContext, useRef } from "react";
 
 interface SectionProps extends HTMLAttributes<HTMLElement> {
   section: Section;
+  isFirst?: boolean;
   isLast?: boolean;
 }
 
 const Section: React.FC<SectionProps> = ({
   section,
+  isFirst = false,
   isLast = false,
+  children,
   ...props
 }) => {
-  const { setActiveSection, setActiveSectionProgress } = useContext(
-    SectionContext
-  ) as SectionContextType;
+  const sectionContext = useContext(SectionContext);
+  if (sectionContext == null) return;
+
+  const { setActiveSection, setActiveSectionProgress } = sectionContext;
 
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: isLast ? ["start start", "end end"] : ["start start", "end start"],
+    offset: isFirst
+      ? ["start start", "end center"]
+      : isLast
+      ? ["start center", "end end"]
+      : ["start center", "end center"],
   });
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
@@ -36,7 +41,11 @@ const Section: React.FC<SectionProps> = ({
 
   return (
     <section {...props} ref={container}>
-      {section.title}
+      {children || (
+        <div className="w-full flex justify-center pt-20">
+          <h1 className="text-6xl font-semibold">{section.title}</h1>
+        </div>
+      )}
     </section>
   );
 };
