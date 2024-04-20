@@ -18,7 +18,7 @@ export default function Home() {
           <div className="w-full h-full flex flex-col gap-2 justify-center items-center">
             <h1 className="text-6xl font-semibold">{sections[0].title}</h1>
             <p className="text-neutral-700">Starting at $699</p>
-            <div className="relative w-[90%] aspect-video overflow-hidden">
+            <div className="relative w-[90%] max-w-2xl aspect-video overflow-hidden">
               <Image
                 src="/aipin.png"
                 alt="Ai Pin"
